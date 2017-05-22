@@ -20,6 +20,7 @@ To illustrate the ease with which tbl2xts transforms data.frames or tbl_dfs into
 
 Load the tbl_df data set included with the package, and transform it into xts format.
 
+    library(dplyr)
     library(tbl2xts)
     tbldata <- TRI
     xtsdata <- tbldata %>% 
@@ -35,6 +36,7 @@ Notice that the column name convention is to use the spread_by name, underscore,
 
 tbl_xts also facilitates the use of tbl_df data frames in packages that use xts. As an illustration, see the output for TRI with the package PerformanceAnalytics. As we are working with Total Return Index values, suppose we wanted to calculate the weekly returns, and then the ... using PerformanceAnalytics. This can now be achieved with neat code as follows:
 
+    library(dplyr)
     library(tbl2xts)
     library(PerformanceAnalytics)
     tbldata <- TRI

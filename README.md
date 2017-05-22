@@ -18,6 +18,7 @@ Example 1
 
 Load the tbl\_df data set included with the package, and transform it into xts format.
 
+    library(dplyr)
     library(tbl2xts)
     tbldata <- TRI
     xtsdata <- tbldata %>% 
@@ -34,6 +35,7 @@ Example 2
 
 tbl\_xts also facilitates the use of tbl\_df data frames in packages that use xts. As an illustration, see the output for TRI with the package PerformanceAnalytics. As we are working with Total Return Index values, suppose we wanted to calculate the weekly returns, and then the ... using PerformanceAnalytics. This can now be achieved with neat code as follows:
 
+    library(dplyr)
     library(tbl2xts)
     library(PerformanceAnalytics)
     tbldata <- TRI

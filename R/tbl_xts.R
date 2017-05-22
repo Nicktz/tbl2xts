@@ -23,7 +23,7 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
   # Sanity Checks -----------------------------------------------------------
 
   # ensure that column 1 is a valid date column:
-  if ( tblData[,1] %>% .[[1]] %>% timeBased() == FALSE & tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )] %>% .[[1]] %>% timeBased() == FALSE ) stop("Ensure that the first column is a valid time-based column, or you have a valid time based column called date, Date or DATE. \n Current time-based objects supported are Date, POSIXct, chron, yearmon, yearqtr, and timeDate")
+  if ( timeBased(tblData[,1][[1]]) == FALSE & timeBased(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )][[1]]) == FALSE ) stop("Ensure that the first column is a valid time-based column, or you have a valid time based column called date, Date or DATE. \n Current time-based objects supported are Date, POSIXct, chron, yearmon, yearqtr, and timeDate")
   if ( length(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )]) > 1 ) stop("Provide only one date column named Date, date or DATE.")
 
   # Check classes:
@@ -49,9 +49,9 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
 
     # Define the date column to arrange by:
     if( length(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )]) == 0 ) {
-      d <- tblData[,1]  %>% .[[1]] %>% as.Date()
+      d <- as.Date(tblData[,1][[1]])
     } else {
-      d <- tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )] %>% .[[1]] %>% as.Date()
+      d <- as.Date(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )][[1]])
     }
 
     if (!missing(cols_to_xts) ) {
@@ -70,7 +70,7 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
     if ( spread_by[1] %in% colnames(tblData) == FALSE ) stop( cat(paste0("spread_by must be a valid column of the input object. \n ", spread_by[1], " is not a valid column.") ) )
 
     gid.xts <-
-      tblData %>% select_(spread_by) %>% unique() %>% .[[1]] %>% as.character()
+      as.character(unique(tblData %>% select_(spread_by))[[1]])
 
     if (length(gid.xts) == 1 ) message("The spread_by column only has one category. \nHence only the column name was changed...")
     if ( !class(gid.xts) %in%  c("character", "factor") ) stop( "Valid column type for spread_by requires a character or factor column")
@@ -85,9 +85,9 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
 
       # Define the date column to arrange by:
       if( length(xtsdatTmp[,which(names(xtsdatTmp) %in% c("Date", "date", "DATE") )]) == 0 ) {
-        d <- xtsdatTmp[,1]  %>% .[[1]] %>% as.Date()
+        d <- as.Date(xtsdatTmp[,1][[1]])
       } else {
-        d <- xtsdatTmp[,which(names(xtsdatTmp) %in% c("Date", "date", "DATE") )] %>% .[[1]] %>% as.Date()
+        d <- as.Date(xtsdatTmp[,which(names(xtsdatTmp) %in% c("Date", "date", "DATE") )][[1]])
       }
 
       if (!missing(cols_to_xts) ) {

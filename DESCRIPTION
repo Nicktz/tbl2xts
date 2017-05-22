@@ -1,5 +1,5 @@
 Package: tbl2xts
-Title: Convert Tibbles Or Dataframes To Xts Easily.
+Title: Convert Tibbles Or Dataframes To Xts Easily
 Version: 0.1.0
 Authors@R: person("Nico", "Katzke", email = "nfkatzke@gmail.com", role = c("aut", "cre"))
 Description: This package was designed to facilitate the movement between dataframes or tbls and xts. 

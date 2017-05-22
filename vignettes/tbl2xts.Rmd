@@ -23,7 +23,7 @@ To illustrate the ease with which tbl2xts transforms data.frames or tbl_dfs into
 
 ## Example 1   
 
-Load the tbl_df dataset included with the package, and transform it into xts format.
+Load the tbl_df data set included with the package, and transform it into xts format.
 
     library(tbl2xts)
     tbldata <- TRI

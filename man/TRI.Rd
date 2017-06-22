@@ -17,3 +17,4 @@ TRI
 This is a toy dataset, which is simply an example of a Total Return Index that can be used in packages requiring xts
 }
 \keyword{datasets}
+

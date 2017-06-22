@@ -3,16 +3,24 @@ Type: Package
 Title: Convert Tibbles Or Dataframes To Xts Easily
 Version: 0.1.0
 Author: Nico Katzke
-Description: This package was designed to facilitate the movement between dataframes or tbls and xts. 
-    It should aid in moving between, e.g., the tidyverse and xts, which is the input format of choice 
-    to various other packages. 
-	  It also allows the user to use a spread_by argument for a character column xts conversion.
+Description: This package was designed to facilitate the movement between
+    dataframes or tbls and xts. It should aid in moving between, e.g., the tidyverse
+    and xts, which is the input format of choice to various other packages. It
+    also allows the user to use a spread_by argument for a character column xts
+    conversion.
 Maintainer: Nico Katzke <nfkatzke@gmail.com>
-Depends: R (>= 3.2.1)
-Imports: xts, zoo, dplyr, lazyeval, PerformanceAnalytics
+Depends:
+    R (>= 3.2.1)
+Imports:
+    xts,
+    zoo,
+    dplyr,
+    lazyeval,
+    PerformanceAnalytics
 License: GPL-3
 LazyData: TRUE
-RoxygenNote: 6.0.0
-Suggests: knitr,
+RoxygenNote: 5.0.1
+Suggests:
+    knitr,
     rmarkdown
 VignetteBuilder: knitr

@@ -11,11 +11,14 @@
 #' @import zoo
 #' @import dplyr
 #' @import lazyeval
-#' @export
 #' @examples
 #' library(dplyr)
+#' library(tbl2xts)
 #' data(TRI)
 #' tbl_xts(TRI, cols_to_xts = "TRI", spread_by = "Country")
+#' @export
+
+
 
 
 tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix") {

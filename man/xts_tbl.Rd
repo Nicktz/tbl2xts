@@ -18,6 +18,7 @@ Note that the dataframe must be of type xts and ordered by a date column. This d
 }
 \examples{
 library(dplyr)
+library(tbl2xts)
 data(TRI)
 TRI \%>\% tbl_xts(., cols_to_xts = "TRI", spread_by = "Country") \%>\% xts_tbl()
 }

@@ -25,6 +25,7 @@ tbl_xts also allows the user to specify the columns to be transformed to xts, as
 }
 \examples{
 library(dplyr)
+library(tbl2xts)
 data(TRI)
 tbl_xts(TRI, cols_to_xts = "TRI", spread_by = "Country")
 }

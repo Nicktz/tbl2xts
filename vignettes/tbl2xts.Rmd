@@ -25,6 +25,7 @@ To illustrate the ease with which tbl2xts transforms data.frames or tbl_dfs into
 
 Load the tbl_df data set included with the package, and transform it into xts format.
 
+    library(dplyr)
     library(tbl2xts)
     tbldata <- TRI
     xtsdata <- tbldata %>% 
@@ -40,6 +41,7 @@ Notice that the column name convention is to use the spread_by name, underscore,
 
 tbl_xts also facilitates the use of tbl_df dataframes in packages that use xts. As an illustration, see the output for TRI with the package PerformanceAnalytics. As we are working with Total Return Index values, suppose we wanted to calculate the weekly returns, and then the ... using PerformanceAnalytics. This can now be achieved with neat code as follows:
 
+    library(dplyr)
     library(tbl2xts)
     library(PerformanceAnalytics)
     tbldata <- TRI
@@ -54,6 +56,8 @@ Note that lapply was used to apply the Return.Calculate to each column, while Re
 
 The input requires the data to be in data.frame() or tbl_df() form, with a valid date column being provided (similar to the requirement for the xts package). The function will check if a column date, DATE, or Date exists, or alternatively look for a valid timeBased object in your worfkile and rename it Date. This column can be either a Date, POSIXct, chron, yearmon, yearqtr or timeDate (see ?timeBased) column. The validity of the date column can be tested using:
 
+    library(dplyr)
+    library(tbl2xts)
     data(TRI)
     TRI[,"Date"] %>% .[[1]] %>% timeBased()
 

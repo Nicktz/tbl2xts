@@ -2,12 +2,12 @@ Package: tbl2xts
 Version: 0.1.0
 Date: 2017-06-20
 Type: Package
-Title: Convert Tibbles Or Data Frames To Xts Easily
+Title: Convert Tibbles or Data Frames to Xts Easily
 Author: Nico Katzke
-Description: Facilitate the movement between data frames to xts. Particularly
-    useful when moving from tidyverse to the widely used xts package, which is
+Description: Facilitate the movement between data frames to 'xts'. Particularly
+    useful when moving from 'tidyverse' to the widely used 'xts' package, which is
     the input format of choice to various other packages. It also allows the user 
-    to use a spread_by argument for a character column xts conversion.
+    to use a 'spread_by' argument for a character column 'xts' conversion.
 Maintainer: Nico Katzke <nfkatzke@gmail.com>
 Depends:
     R (>= 3.2.1)

@@ -4,7 +4,7 @@ Date: 2017-06-20
 Type: Package
 Title: Convert Tibbles Or Data Frames To Xts Easily
 Author: Nico Katzke
-Description: Facilitate the movement between data frames or tbls to xts. Particularly
+Description: Facilitate the movement between data frames to xts. Particularly
     useful when moving from tidyverse to the widely used xts package, which is
     the input format of choice to various other packages. It also allows the user 
     to use a spread_by argument for a character column xts conversion.

@@ -1,10 +1,10 @@
 ---
-title: "tbl2xts"
+title: "Moving From Tbl To Xts Easily"
 author: "NF Katzke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{tbl2xts}
+  %\VignetteIndexEntry{Moving From Tbl To Xts Easily}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,7 +13,7 @@ vignette: >
 
 # Introduction 
 
-This package helps users who want to put data.frame or tbl_df objects into xts format easily. Xts is a powerful package used to convert dataframes into time-series. This package is widely used in other packages in R too. 
+The aim of this package is to help users move from tidyverse to xts environments more easily. In particular, users that want to put data.frame or tbl_df objects into xts format will find this package useful. Xts is a powerful package used to convert dataframes into time-series. This package is widely used in other packages in R too. 
 
 The problem is that often times users want to move from a tbl format, or a tidyverse format, into xts, but doing so can be an onerous task. This package aims to overcome this problem by bridging the tbl_df or data.table to xts gap. It also allows the user to use a spread_by argument for an easy character column xts conversion for tidy data.
 

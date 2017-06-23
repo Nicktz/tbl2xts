@@ -29,4 +29,3 @@ library(tbl2xts)
 data(TRI)
 tbl_xts(TRI, cols_to_xts = "TRI", spread_by = "Country")
 }
-

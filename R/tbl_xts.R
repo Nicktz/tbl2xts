@@ -27,7 +27,7 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
 
   # ensure that column 1 is a valid date column:
   if ( timeBased(tblData[,1][[1]]) == FALSE & timeBased(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )][[1]]) == FALSE ) stop("Ensure that the first column is a valid time-based column, or you have a valid time based column called date, Date or DATE. \n Current time-based objects supported are Date, POSIXct, chron, yearmon, yearqtr, and timeDate")
-  if ( length(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )]) > 1 ) stop("Provide only one date column named Date, date or DATE.")
+  if ( length(names(tblData)[names(tblData) %in% c("Date", "date", "DATE")]) > 1 ) stop("Provide only one date column named Date, date or DATE.")
 
   # Check classes:
   if ( !class(tblData)[1] %in% c("tbl_df", "grouped_df","data.frame") ) stop("This function can be used on dataframes or tbl_df() classes only. Check the class of your object using class(objectname)")

@@ -52,9 +52,24 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
 
     # Define the date column to arrange by:
     if( length(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )]) == 0 ) {
-      d <- as.Date(tblData[,1][[1]])
+
+      d <- tblData[,1][[1]]
+
+      if(class(d)[1] %in% c("POSIXct", "POSIXt")) {
+        d <- d # Preserve POSIXct information if included
+      } else {
+        d <- as.Date(d) # Otherwise use generic as.Date call
+      }
+
     } else {
-      d <- as.Date(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )][[1]])
+      d <- tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )][[1]]
+
+      if(class(d)[1] %in% c("POSIXct", "POSIXt")) {
+        d <- d # Preserve POSIXct information if included
+      } else {
+        d <- as.Date(d) # Otherwise use generic as.Date call
+      }
+
     }
 
     if (!missing(cols_to_xts) ) {
@@ -88,9 +103,24 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
 
       # Define the date column to arrange by:
       if( length(xtsdatTmp[,which(names(xtsdatTmp) %in% c("Date", "date", "DATE") )]) == 0 ) {
-        d <- as.Date(xtsdatTmp[,1][[1]])
+        d <- xtsdatTmp[,1][[1]]
+
+        if(class(d)[1] %in% c("POSIXct", "POSIXt")) {
+          d <- d # Preserve POSIXct information if included
+        } else {
+          d <- as.Date(d) # Otherwise use generic as.Date call
+        }
+
       } else {
-        d <- as.Date(xtsdatTmp[,which(names(xtsdatTmp) %in% c("Date", "date", "DATE") )][[1]])
+
+        d <- xtsdatTmp[,which(names(xtsdatTmp) %in% c("Date", "date", "DATE") )][[1]]
+
+        if(class(d)[1] %in% c("POSIXct", "POSIXt")) {
+          d <- d # Preserve POSIXct information if included
+        } else {
+          d <- as.Date(d) # Otherwise use generic as.Date call
+        }
+
       }
 
       if (!missing(cols_to_xts) ) {

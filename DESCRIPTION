@@ -9,6 +9,7 @@ Description: Facilitate the movement between data frames to 'xts'. Particularly
     the input format of choice to various other packages. It also allows the user 
     to use a 'spread_by' argument for a character column 'xts' conversion.
 Maintainer: Nico Katzke <nfkatzke@gmail.com>
+BugReports: https://github.com/nicktz/tbl2xts/issues
 Depends:
     R (>= 3.2.1)
 Imports:

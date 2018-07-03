@@ -3,7 +3,7 @@ Version: 0.1.2
 Date: 2017-08-02
 Type: Package
 Title: Convert Tibbles or Data Frames to Xts Easily
-Author: Nico Katzke
+Authors@R: person("Nico", "Katzke", role = c("aut", "cre"), email = "nfkatzke@gmail.com")
 Description: Facilitate the movement between data frames to 'xts'. Particularly
     useful when moving from 'tidyverse' to the widely used 'xts' package, which is
     the input format of choice to various other packages. It also allows the user 

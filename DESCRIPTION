@@ -10,6 +10,7 @@ Description: Facilitate the movement between data frames to 'xts'. Particularly
     to use a 'spread_by' argument for a character column 'xts' conversion.
 Maintainer: Nico Katzke <nfkatzke@gmail.com>
 BugReports: https://github.com/nicktz/tbl2xts/issues
+URL: http://tbl2xts.nfkatzke.com
 Depends:
     R (>= 3.2.1)
 Imports:

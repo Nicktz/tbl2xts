@@ -1,8 +1,10 @@
 tbl2xts
 =======
 
+![](https://cranlogs.r-pkg.org/badges/tbl2xts?color=brightgreen) ![](https://cranlogs.r-pkg.org/badges/grand-total/tbl2xts?color=brightgreen)
+
 Introduction
-============
+------------
 
 This package helps users who want to put data.frame or tbl\_df objects into xts format easily. Xts is a powerful package used to convert data frames into time-series. This package is widely used in other packages in R too.
 

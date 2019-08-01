@@ -24,8 +24,14 @@ Note that the dataframe must be a data.frame or tbl_df, and either the first col
 tbl_xts also allows the user to specify the columns to be transformed to xts, as well as an option for spreading by a single character or factor type column. See the example for details.
 }
 \examples{
+\dontrun{
 library(dplyr)
 library(tbl2xts)
 data(TRI)
 tbl_xts(TRI, cols_to_xts = "TRI", spread_by = "Country")
+ # In a pipe:
+ # tbl - xts - tbl:
+TRI \%>\% tbl_xts(., spread_by = "Country") \%>\%  PerformanceAnalytics::Return.calculate(.) \%>\%
+xts::apply.yearly(., FUN = PerformanceAnalytics::StdDev.annualized) \%>\% xts_tbl
+}
 }

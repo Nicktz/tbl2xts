@@ -51,6 +51,27 @@ tbl_xts also facilitates the use of tbl_df dataframes in packages that use xts. 
 
 Note that lapply was used to apply the Return.Calculate to each column, while Reduce was used to merge all the lists created using lapply into a single dataframe. We then pipe all the returns into, e.g., the table.DownsideRisk function, or any other applicable function in the PA package.
 
+
+## Example 3:
+
+Here I show how you can easily do quite advanced calculations and seemlessly move from tbl to xts back to tbl. Below I use xts' apply.yearly and PerformanceAnalytics' suite of calcs that allow us to do some nice calculations easily:
+
+    TRI %>% tbl_xts(., spread_by = "Country") %>%  
+    PerformanceAnalytics::Return.calculate(.) %>% 
+    xts::apply.yearly(., FUN = PerformanceAnalytics::StdDev.annualized) %>% 
+    xts_tbl
+
+Note how easy we could do quite advanced calculations in a single pipe. E.g. if tasked with producing a plot for the annual CVaR numbers for our countries:
+
+    library(ggplot2)
+    library(tidyr)
+    TRI %>% tbl_xts(., spread_by = "Country") %>%  
+    PerformanceAnalytics::Return.calculate(.) %>% 
+    xts::apply.yearly(., FUN = PerformanceAnalytics::CVaR) %>% 
+    xts_tbl %>% tidyr::gather(Country, CVaR, -date) %>% 
+    ggplot() + geom_line(aes(date, CVaR)) + theme_bw() + facet_wrap(~Country)
+
+
 ## Note
 
 

@@ -17,7 +17,9 @@ This function converts data from a xts object to a tbl_df().
 Note that the dataframe must be of type xts and ordered by a date column. This date column will be preserved and save as "date".
 }
 \examples{
+\dontrun{
 library(dplyr)
 data(TRI)
-TRI \%>\% tbl_xts(., cols_to_xts = "TRI", spread_by = "Country") \%>\% xts_tbl()
+df_xts_tbl <- TRI \%>\% tbl_xts(., cols_to_xts = "TRI", spread_by = "Country") \%>\% xts_tbl()
+}
 }

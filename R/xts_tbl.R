@@ -6,12 +6,13 @@
 #' @importFrom xts as.xts
 #' @import zoo
 #' @import dplyr
-#' @export
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #' data(TRI)
-#' TRI %>% tbl_xts(., cols_to_xts = "TRI", spread_by = "Country") %>% xts_tbl()
-
+#' df_xts_tbl <- TRI %>% tbl_xts(., cols_to_xts = "TRI", spread_by = "Country") %>% xts_tbl()
+#' }
+#' @export
 
 xts_tbl <- function(xts) {
 

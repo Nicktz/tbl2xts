@@ -12,10 +12,19 @@
 #' @import dplyr
 #' @import lazyeval
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #' library(tbl2xts)
 #' data(TRI)
 #' tbl_xts(TRI, cols_to_xts = "TRI", spread_by = "Country")
+#'  # In a pipe:
+# TRI %>% tbl_xts(., spread_by = "Country") %>%
+# PerformanceAnalytics::Return.calculate(.) %>%
+# PerformanceAnalytics::Return.cumulative()
+#'  # tbl - xts - tbl:
+#' TRI %>% tbl_xts(., spread_by = "Country") %>%  PerformanceAnalytics::Return.calculate(.) %>%
+#' xts::apply.yearly(., FUN = PerformanceAnalytics::StdDev.annualized) %>% xts_tbl
+#' }
 #' @export
 
 
@@ -30,8 +39,7 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
   if ( length(names(tblData)[names(tblData) %in% c("Date", "date", "DATE")]) > 1 ) stop("Provide only one date column named Date, date or DATE.")
 
   # Check classes:
-  if ( !class(tblData)[1] %in% c("tbl_df", "grouped_df","data.frame") ) stop("This function can be used on dataframes or tbl_df() classes only. Check the class of your object using class(objectname)")
-  if ( class(tblData)[1] != "tbl_df" & class(tblData)[1] != "grouped_df" & class(tblData)[1] != "data.frame") stop("This function can be used on dataframes or tbl_df() classes only. Check the class of your object using class(objectname)")
+  if ( !class(tblData)[1] %in% c("tbl_df", "grouped_df","data.frame", "spec_tbl_df") ) stop("This function can be used on dataframes or tbl_df() classes only. Check the class of your object using class(objectname). You can also pipe your df into dplyr::tbl_df()")
 
   # dataframe to tbl_df. Add warning too..:
   if (class(tblData)[1] == "data.frame") {

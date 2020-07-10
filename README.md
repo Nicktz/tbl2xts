@@ -40,6 +40,25 @@ Transform a dataframe into xts format:
 Notice as of version 1.0.0 of this package, inputs are now quo\_sures \~
 so you don’t have to use quotations for parameters.
 
+Note
+----
+
+The input requires the data to be in data.frame() or tbl\_df() form,
+with a valid date column being provided (similar to the requirement for
+the xts package). The function will check if a column *date*, *DATE*, or
+*Date* exists, or alternatively look for a valid timeBased object in
+your worfkile and rename it Date. This column can be either a Date,
+POSIXct, chron, yearmon, yearqtr or timeDate (see ?timeBased) column.
+The validity of the date column can be tested using:
+
+    data(TRI)
+    TRI[,"Date"] %>% .[[1]] %>% xts::timeBased()
+
+If TRUE, it is a valid date column.
+
+Example 2
+---------
+
 We could also add a suffix or prefix to the column name created. In the
 example below, adding spread\_name\_pos = “Suffix” makes columns
 <Country>\_TRI.
@@ -58,10 +77,10 @@ cols\_to\_xts.
 ### To now transform the xts object back into a tbl\_df() object, simply use the inverse command:
 
     xtsdata <- tbl2xts::TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country, spread_name_pos = "Suffix")
-    tbl <- xtsdata %>% xts_tbl()
+    xtsdata %>% xts_tbl()
 
-Example 2
----------
+Example 3: using downstream packages
+------------------------------------
 
 tbl\_xts also facilitates the use of tbl\_df data frames in packages
 that use xts. As an illustration, see the output for TRI with the
@@ -73,28 +92,22 @@ follows:
     library(dplyr)
     library(tbl2xts)
     library(PerformanceAnalytics)
-    tbldata <- tbl2xts::TRI
-    tbldata %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country) %>% 
-    lapply(.,Return.calculate, "discrete") %>% Reduce(merge,.) %>% table.DownsideRisk(.)
+    tbl2xts::TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country) %>% 
+    PerformanceAnalytics::Return.calculate(., "discrete") %>% 
+    PerformanceAnalytics::Return.cumulative(.)
 
-Note that lapply was used to apply the Return.Calculate to each column,
-while Reduce was used to merge all the lists created using lapply into a
-single data frame. We then pipe all the returns into, e.g., the
-table.DownsideRisk function, or any other applicable function in the PA
-package.
-
-Example 3:
-----------
+Example 4
+---------
 
 Here I show how you can easily do quite advanced calculations and
 seemlessly move from tbl to xts back to tbl. Below I use xts’
-apply.yearly and PerformanceAnalytics’ suite of calcs that allow us to
-do some nice calculations easily:
+apply.yearly and PerformanceAnalytics’ suite of calculations that allow
+us to do some nice analytics easily:
 
-    tbl2xts::TRI %>% tbl_xts(., spread_by = Country) %>%  
+    tbl2xts::TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country) %>%  
     PerformanceAnalytics::Return.calculate(.) %>% 
     xts::apply.yearly(., FUN = PerformanceAnalytics::StdDev.annualized) %>% 
-    xts_tbl
+    xts_tbl %>% mutate(Year = format(date, "%Y")) %>% select(Year, everything(), -date)
 
 Note how easy we could do quite advanced calculations in a single pipe.
 E.g. if tasked with producing a plot for the annual CVaR numbers for our
@@ -102,24 +115,8 @@ countries:
 
     library(ggplot2)
     library(tidyr)
-    TRI %>% tbl_xts(., spread_by = Country) %>%  
+    TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country) %>%  
     PerformanceAnalytics::Return.calculate(.) %>% 
     xts::apply.yearly(., FUN = PerformanceAnalytics::CVaR) %>% 
     xts_tbl %>% tidyr::gather(Country, CVaR, -date) %>% 
     ggplot() + geom_line(aes(date, CVaR)) + theme_bw() + facet_wrap(~Country)
-
-Note
-----
-
-The input requires the data to be in data.frame() or tbl\_df() form,
-with a valid date column being provided (similar to the requirement for
-the xts package). The function will check if a column date, DATE, or
-Date exists, or alternatively look for a valid timeBased object in your
-worfkile and rename it Date. This column can be either a Date, POSIXct,
-chron, yearmon, yearqtr or timeDate (see ?timeBased) column. The
-validity of the date column can be tested using:
-
-    data(TRI)
-    TRI[,"Date"] %>% .[[1]] %>% timeBased()
-
-If TRUE, it is a valid date column.

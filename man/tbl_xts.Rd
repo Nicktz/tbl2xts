@@ -28,10 +28,8 @@ tbl_xts also allows the user to specify the columns to be transformed to xts, as
 library(dplyr)
 library(tbl2xts)
 data(TRI)
-tbl_xts(TRI, cols_to_xts = "TRI", spread_by = "Country")
- # In a pipe:
+tbl_xts(tbl2xts::TRI, cols_to_xts = TRI, spread_by = Country)
  # tbl - xts - tbl:
-TRI \%>\% tbl_xts(., spread_by = "Country") \%>\%  PerformanceAnalytics::Return.calculate(.) \%>\%
-xts::apply.yearly(., FUN = PerformanceAnalytics::StdDev.annualized) \%>\% xts_tbl
+tbl_xts(tbl2xts::TRI, cols_to_xts = TRI, spread_by = Country) \%>\% xts_tbl()
 }
 }

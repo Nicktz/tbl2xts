@@ -3,6 +3,7 @@
 #' \describe{
 #'   \item{Date}{Valid date column}
 #'   \item{Country}{Country, by which to spread}
-#'   \item{TRI}{Value to xts}
+#'   \item{TRI}{Total Returns}
+#'   \item{Return}{Simple Returns}
 #' }
 "TRI"

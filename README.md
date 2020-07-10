@@ -24,25 +24,41 @@ Examples
 To illustrate the ease with which tbl2xts transforms data.frames or
 tbl\_dfs into xts format, consider the following example.
 
+We use a simple toy dataset to illustrate. As we are transforming
+
 Example 1
 ---------
 
-Load the tbl\_df data set included with the package, and transform it
-into xts format.
+Transform a dataframe into xts format:
 
     library(dplyr)
     library(tbl2xts)
-    tbldata <- TRI
     xtsdata <- 
-    tbldata %>% 
-    tbl_xts(., cols_to_xts = "TRI", spread_by = "Country", spread_name_pos = "Suffix")
+    tbl2xts::TRI %>% 
+    tbl_xts(., cols_to_xts = TRI, spread_by = Country)
 
-Notice that the column name convention is to use the spread\_by name,
-underscore, column name. In the example above, it is Country\_TRI.
+Notice as of version 1.0.0 of this package, inputs are now quo\_sures \~
+so you don’t have to use quotations for parameters.
+
+We could also add a suffix or prefix to the column name created. In the
+example below, adding spread\_name\_pos = “Suffix” makes columns
+<Country>\_TRI.
+
+    xtsdata <- tbl2xts::TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country, spread_name_pos = "Suffix")
+
+You could also easily transform multiple numeric columns into xts using
+the spread\_by functionality:
+
+    spread_multiple <- tbl2xts::TRI %>% tbl_xts(., cols_to_xts = c("TRI", "Return"), spread_by = Country)
+
+Notice for this example, I forced a spread\_name\_pos = “Suffix” to
+allow for differentiation as you chose to spread\_by and have multiple
+cols\_to\_xts.
 
 ### To now transform the xts object back into a tbl\_df() object, simply use the inverse command:
 
-    xtsdata %>% xts_tbl()
+    xtsdata <- tbl2xts::TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country, spread_name_pos = "Suffix")
+    tbl <- xtsdata %>% xts_tbl()
 
 Example 2
 ---------
@@ -57,9 +73,8 @@ follows:
     library(dplyr)
     library(tbl2xts)
     library(PerformanceAnalytics)
-    tbldata <- TRI
-    tbldata %>% 
-    tbl_xts(., cols_to_xts = "TRI", spread_by = "Country") %>% 
+    tbldata <- tbl2xts::TRI
+    tbldata %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country) %>% 
     lapply(.,Return.calculate, "discrete") %>% Reduce(merge,.) %>% table.DownsideRisk(.)
 
 Note that lapply was used to apply the Return.Calculate to each column,
@@ -76,7 +91,7 @@ seemlessly move from tbl to xts back to tbl. Below I use xts’
 apply.yearly and PerformanceAnalytics’ suite of calcs that allow us to
 do some nice calculations easily:
 
-    TRI %>% tbl_xts(., spread_by = "Country") %>%  
+    tbl2xts::TRI %>% tbl_xts(., spread_by = Country) %>%  
     PerformanceAnalytics::Return.calculate(.) %>% 
     xts::apply.yearly(., FUN = PerformanceAnalytics::StdDev.annualized) %>% 
     xts_tbl
@@ -87,7 +102,7 @@ countries:
 
     library(ggplot2)
     library(tidyr)
-    TRI %>% tbl_xts(., spread_by = "Country") %>%  
+    TRI %>% tbl_xts(., spread_by = Country) %>%  
     PerformanceAnalytics::Return.calculate(.) %>% 
     xts::apply.yearly(., FUN = PerformanceAnalytics::CVaR) %>% 
     xts_tbl %>% tidyr::gather(Country, CVaR, -date) %>% 

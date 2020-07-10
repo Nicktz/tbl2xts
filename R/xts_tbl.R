@@ -6,11 +6,12 @@
 #' @importFrom xts as.xts
 #' @import zoo
 #' @import dplyr
+#' @importFrom tibble as_tibble
 #' @examples
 #' \dontrun{
 #' library(dplyr)
 #' data(TRI)
-#' df_xts_tbl <- TRI %>% tbl_xts(., cols_to_xts = "TRI", spread_by = "Country") %>% xts_tbl()
+#' df_xts_tbl <- TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country) %>% xts_tbl()
 #' }
 #' @export
 
@@ -20,7 +21,7 @@ xts_tbl <- function(xts) {
   # ensure that column 1 is a valid date column:
   if ( class(xts)[1] !=  "xts") stop("Ensure that the supplied dataframe has class xts...")
 
-  df <- data.frame(date=index(xts), coredata(xts)) %>% tbl_df()
+  df <- data.frame(date=index(xts), coredata(xts)) %>% tibble::as_tibble()
 
   df
 

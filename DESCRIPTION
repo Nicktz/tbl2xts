@@ -1,6 +1,6 @@
 Package: tbl2xts
 Version: 1.0.0
-Date: 2019-08-01
+Date: 2020-07-09
 Type: Package
 Title: Convert Tibbles or Data Frames to Xts Easily
 Authors@R: person("Nico", "Katzke", role = c("aut", "cre"), email = "nfkatzke@gmail.com")

@@ -22,7 +22,7 @@
 #' }
 #' @export
 
-tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix") {
+tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "NONE") {
 
   # Sanity Checks -----------------------------------------------------------
 
@@ -134,11 +134,11 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "Suffix")
           as.xts( xtsdatTmp[sapply(xtsdatTmp, is.numeric)], order.by = d )
       }
 
-      if(missing(spread_name_pos) && length(cols_xts) > 1 && !missing(spread_by) ) spread_name_pos <- "Suffix"
-
       if(missing(spread_name_pos)) spread_name_pos <- "NONE"
 
-      if(!spread_name_pos %in% c("Suffix", "suffix", "prefix", "Prefix", "NONE", "None", "none") ) stop("Please provide a valid spread_name_pos. \n Either: Suffix, suffix, Prefix, prefix, NONE, None or none.")
+      if(spread_name_pos == "NONE" && length(cols_to_xts) > 1 && !missing(spread_by) ) spread_name_pos <- "Suffix"
+
+      if(!spread_name_pos %in% c("Suffix", "suffix", "prefix", "Prefix", "NONE", "None", "none") ) stop("Please provide a valid spread_name_pos. \n Either: Suffix, Prefix, or NONE")
 
       if (spread_name_pos %in% c("Suffix", "suffix") ) {
         colnames(dataXtsTmp) <- paste(gid.xts[i],colnames(dataXtsTmp), sep = "_")

@@ -7,10 +7,6 @@ output:
 # tbl2xts
 
 [![CRAN\_Release\_Badge](https://www.r-pkg.org/badges/version-ago/tbl2xts)](https://CRAN.R-project.org/package=tbl2xts)
-![](https://cranlogs.r-pkg.org/badges/tbl2xts?color=brightgreen)
-![](https://cranlogs.r-pkg.org/badges/grand-total/tbl2xts?color=brightgreen)
-
-[![CRAN\_Release\_Badge](https://www.r-pkg.org/badges/version-ago/tbl2xts)](https://CRAN.R-project.org/package=tbl2xts)
 [![Monthly downloads
 badge](https://cranlogs.r-pkg.org/badges/last-month/tbl2xts?color=blue)](https://CRAN.R-project.org/package=tbl2xts)
 [![Total downloads
@@ -19,7 +15,6 @@ badge](https://cranlogs.r-pkg.org/badges/grand-total/tbl2xts?color=blue)](https:
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/)
-[![status](https://tinyverse.netlify.com/badge/tbl2xts)](https://CRAN.R-project.org/package=tbl2xts)
 
 
 ## Introduction 

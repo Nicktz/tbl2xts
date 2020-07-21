@@ -1,7 +1,7 @@
 ---
 title: "Moving From Tbl To Xts Easily"
 author: "NF Katzke"
-date: "`r Sys.Date()`"
+date: "2020-07-21"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Moving From Tbl To Xts Easily}

@@ -4,7 +4,7 @@
 \alias{tbl_xts}
 \title{tbl_xts}
 \usage{
-tbl_xts(tblData, cols_to_xts, spread_by, spread_name_pos = "NONE")
+tbl_xts(tblData, cols_to_xts, spread_by, spread_name_pos)
 }
 \arguments{
 \item{tblData}{A tbl_df type dataframe}

@@ -30,9 +30,7 @@ The problem is that often times users want to move from a tbl format, or a tidyv
 
 # Examples
 
-To illustrate the ease with which tbl2xts transforms data.frames or tbl_dfs into xts format, consider the following example.
-
-We use a simple toy dataset to illustrate. As we are transforming 
+To illustrate the ease with which tbl2xts transforms data.frames or tbl_dfs into xts format, consider the following examples.
 
 ## Example 1
 
@@ -40,15 +38,14 @@ Transform a dataframe into xts format:
 
     library(dplyr)
     library(tbl2xts)
-    xtsdata <- 
     tbl2xts::TRI %>% 
-    tbl_xts(., cols_to_xts = TRI, spread_by = Country)
+    tbl_xts(., cols_to_xts = c(TRI, Return), spread_by = Country)
     
 Notice as of version 1.0.0 of this package, inputs are now quo_sures ~ so you don't have to use quotations for parameters.
 
 ## Note
 
-The input requires the data to be in data.frame() or tbl_df() form, with a valid date column being provided (similar to the requirement for the xts package). The function will check if a column _date_, _DATE_, or _Date_ exists, or alternatively look for a valid timeBased object in your worfkile and rename it Date. This column can be either a Date, POSIXct, chron, yearmon, yearqtr or timeDate (see ?timeBased) column. The validity of the date column can be tested using:
+The input data frame requires a valid date column (similar to the requirement for the xts package). The function will check if a column _date_, _DATE_, or _Date_ exists, or alternatively look for a valid timeBased object in your worfkile and rename it Date. This column can be either a Date, POSIXct, chron, yearmon, yearqtr or timeDate (see ?timeBased) column. The validity of the date column can be tested using:
 
     data(TRI)
     TRI[,"Date"] %>% .[[1]] %>% xts::timeBased()
@@ -59,14 +56,21 @@ If TRUE, it is a valid date column.
 
 We could also add a suffix or prefix to the column name created. In the example below, adding spread_name_pos = "Suffix" makes columns <Country>_TRI. 
 
-    xtsdata <- tbl2xts::TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country, spread_name_pos = "Suffix")
+    tbl2xts::TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country, spread_name_pos = "Suffix")
 
 You could also easily transform multiple numeric columns into xts using the spread_by functionality:
 
-    spread_multiple <- tbl2xts::TRI %>% tbl_xts(., cols_to_xts = c("TRI", "Return"), spread_by = Country)
+    tbl2xts::TRI %>% tbl_xts(., cols_to_xts = c(TRI, Return), spread_by = Country)
 
 Notice for this example, I forced a spread_name_pos = "Suffix" to allow for differentiation as you chose to spread_by and have multiple cols_to_xts.
 
+If you set explicitly set spread_name_pos = "NONE", you will be warned of the "Suffix" override.
+
+You could also use a vector input for transformation:
+
+    vector_to_xts <- c("TRI", "Return")
+    Spread <- "Country"
+    tbl2xts::TRI %>% tbl_xts(., cols_to_xts = all_of(vector_to_xts), spread_by = all_of(Spread))
 
 ### To now transform the xts object back into a tbl_df() object, simply use the inverse command:
 

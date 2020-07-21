@@ -10,7 +10,8 @@
 #' @importFrom xts as.xts timeBased
 #' @import zoo
 #' @import dplyr
-#' @importFrom rlang enquo quo_name
+#' @importFrom rlang :=
+#' @importFrom rlang := enquo quo_get_expr
 #' @examples
 #' \dontrun{
 #' library(dplyr)
@@ -22,17 +23,30 @@
 #' }
 #' @export
 
-tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "NONE") {
+tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos) {
 
   # Sanity Checks -----------------------------------------------------------
 
-  cols_xts <- enquo(cols_to_xts)
-  spreader <- enquo(spread_by)
+  cols_xts <- enquo( cols_to_xts )
+  spreader <- enquo( spread_by )
+  spreadCol = NULL
+  N_xts_Cols <- tblData %>% select(!!cols_xts) %>% ncol()
+  N_spread_Cols <- tblData %>% select(!!spreader) %>% ncol()
+
+  if( N_spread_Cols > 1) stop( "spread_by length greater than 1. This function only works on 1 spread column." )
+
+  if( missing(spread_name_pos) ) { spread_name_pos <- "NONE"; WARN = FALSE } else { WARN = TRUE }
+
+  if( spread_name_pos %in% c("NONE", "None", "none") && N_xts_Cols > 1 && !missing(spread_by)) {
+    spread_name_pos <- "Suffix"
+    if(WARN) warning(paste0("Note: Forced to use suffix for differentiation purposes, because length of cols_to_xts is larger than 1 & spread_by has been set: ", rlang::quo_get_expr(spreader)))
+  }
+
+  if(!spread_name_pos %in% c("Suffix", "suffix", "prefix", "Prefix", "NONE", "None", "none") ) stop("Please provide a valid spread_name_pos. \n Either: Suffix, Prefix, or NONE.")
 
   # ensure that column 1 is a valid date column:
-  if ( timeBased(tblData[,1][[1]]) == FALSE & timeBased(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )][[1]]) == FALSE ) stop("Ensure that the first column is a valid time-based column, or you have a valid time based column called date, Date or DATE. \n Current time-based objects supported are Date, POSIXct, chron, yearmon, yearqtr, and timeDate")
+  if ( xts::timeBased(tblData[,1][[1]]) == FALSE & xts::timeBased(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )][[1]]) == FALSE ) stop("Ensure that the first column is a valid time-based column, or you have a valid time based column called date, Date or DATE. \n Current time-based objects supported are Date, POSIXct, chron, yearmon, yearqtr, and timeDate")
   if ( length(names(tblData)[names(tblData) %in% c("Date", "date", "DATE")]) > 1 ) stop("Provide only one date column named Date, date or DATE.")
-
   # Check classes:
   if ( !class(tblData)[1] %in% c("tbl_df", "grouped_df","data.frame", "spec_tbl_df") ) stop("This function can be used on dataframes or tbl_df() classes only. Check the class of your object using class(objectname). You can also pipe your df into dplyr::tbl_df()")
 
@@ -76,19 +90,16 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "NONE") {
     }
 
     if (!missing(cols_to_xts) ) {
-      if ( ncol( tblData[sapply(tblData, is.numeric)] ) < length(cols_xts)  ) stop("cols_to_xts input larger than available numeric columns. Check this input")
+      if ( ncol( tblData[sapply(tblData, is.numeric)] ) < N_xts_Cols  ) stop("cols_to_xts input larger than available numeric columns. Check this input")
       dataXts <-
-        as.xts( tblData[sapply(tblData, is.numeric)] %>% select(!!cols_xts), order.by = d )
+        xts::as.xts( tblData[sapply(tblData, is.numeric)] %>% select(!!cols_xts), order.by = d )
     } else {
       # If no cols_to_xts is provided, make all numeric columns xts...
       dataXts <-
-        as.xts( tblData[sapply(tblData, is.numeric)], order.by = d )
+        xts::as.xts( tblData[sapply(tblData, is.numeric)], order.by = d )
     }
 
   } else {
-
-    if ( length(quo_name(spreader)) > 1 ) stop( "spread_by length greater than 1. This function only works on 1 spread column." )
-    if ( quo_name(spreader) %in% colnames(tblData) == FALSE ) stop( paste0("\nspread_by must be a valid column of the input object.\n ", quo_name(spreader), " is not a valid column.") )
 
     gid.xts <-
       as.character(unique(tblData %>% select(!!spreader))[[1]])
@@ -98,7 +109,10 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "NONE") {
 
     for (i in 1:length(gid.xts)) {
 
-      xtsdatTmp <- tblData %>% ungroup() %>% filter( .data[[!!quo_name(spreader)]] %in% gid.xts[i] )
+      xtsdatTmp <-
+        tblData %>% ungroup() %>%
+        rename( spreadCol := !!spreader) %>%
+        filter( spreadCol %in% gid.xts[i] )
 
       # Define the date column to arrange by:
       if( length(xtsdatTmp[,which(names(xtsdatTmp) %in% c("Date", "date", "DATE") )]) == 0 ) {
@@ -123,22 +137,15 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos = "NONE") {
       }
 
       if (!missing(cols_to_xts) ) {
-        if ( ncol( xtsdatTmp[sapply(xtsdatTmp, is.numeric)] ) < length(quo_name(cols_xts))  ) stop("cols_to_xts input larger than available numeric columns. Check this input")
         dataXtsTmp <-
-          as.xts( xtsdatTmp[sapply(xtsdatTmp, is.numeric)] %>% select(!!cols_xts), order.by = d )
+          xts::as.xts( xtsdatTmp[sapply(xtsdatTmp, is.numeric)] %>% select(!!cols_xts), order.by = d )
 
       } else {
 
         # If no cols_to_xts is provided, make all numeric columns xts:
         dataXtsTmp <-
-          as.xts( xtsdatTmp[sapply(xtsdatTmp, is.numeric)], order.by = d )
+          xts::as.xts( xtsdatTmp[sapply(xtsdatTmp, is.numeric)], order.by = d )
       }
-
-      if(missing(spread_name_pos)) spread_name_pos <- "NONE"
-
-      if(spread_name_pos == "NONE" && length(cols_to_xts) > 1 && !missing(spread_by) ) spread_name_pos <- "Suffix"
-
-      if(!spread_name_pos %in% c("Suffix", "suffix", "prefix", "Prefix", "NONE", "None", "none") ) stop("Please provide a valid spread_name_pos. \n Either: Suffix, Prefix, or NONE")
 
       if (spread_name_pos %in% c("Suffix", "suffix") ) {
         colnames(dataXtsTmp) <- paste(gid.xts[i],colnames(dataXtsTmp), sep = "_")

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tbl2xts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
       <h1 data-toc-skip>Moving From Tbl To Xts Easily</h1>
                         <h4 class="author">NF Katzke</h4>
             
-            <h4 class="date">2020-07-10</h4>
+            <h4 class="date">2020-07-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nicktz/tbl2xts/blob/master/vignettes/tbl2xts_vignette.Rmd"><code>vignettes/tbl2xts_vignette.Rmd</code></a></small>
       <div class="hidden name"><code>tbl2xts_vignette.Rmd</code></div>
@@ -102,21 +102,25 @@
 <a href="#examples" class="anchor"></a>Examples</h1>
 <p>To illustrate the ease with which tbl2xts transforms data.frames or tbl_dfs into xts format, consider the following example.</p>
 <p>We use a simple toy dataset to illustrate. As we are transforming</p>
+</div>
+<div id="examples-1" class="section level1">
+<h1 class="hasAnchor">
+<a href="#examples-1" class="anchor"></a>Examples</h1>
+<p>To illustrate the ease with which tbl2xts transforms data.frames or tbl_dfs into xts format, consider the following examples.</p>
 <div id="example-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-1" class="anchor"></a>Example 1</h2>
 <p>Transform a dataframe into xts format:</p>
 <pre><code>library(dplyr)
 library(tbl2xts)
-xtsdata &lt;- 
 tbl2xts::TRI %&gt;% 
-tbl_xts(., cols_to_xts = TRI, spread_by = Country)</code></pre>
+tbl_xts(., cols_to_xts = c(TRI, Return), spread_by = Country)</code></pre>
 <p>Notice as of version 1.0.0 of this package, inputs are now quo_sures ~ so you don’t have to use quotations for parameters.</p>
 </div>
 <div id="note" class="section level2">
 <h2 class="hasAnchor">
 <a href="#note" class="anchor"></a>Note</h2>
-<p>The input requires the data to be in data.frame() or tbl_df() form, with a valid date column being provided (similar to the requirement for the xts package). The function will check if a column <em>date</em>, <em>DATE</em>, or <em>Date</em> exists, or alternatively look for a valid timeBased object in your worfkile and rename it Date. This column can be either a Date, POSIXct, chron, yearmon, yearqtr or timeDate (see ?timeBased) column. The validity of the date column can be tested using:</p>
+<p>The input data frame requires a valid date column (similar to the requirement for the xts package). The function will check if a column <em>date</em>, <em>DATE</em>, or <em>Date</em> exists, or alternatively look for a valid timeBased object in your worfkile and rename it Date. This column can be either a Date, POSIXct, chron, yearmon, yearqtr or timeDate (see ?timeBased) column. The validity of the date column can be tested using:</p>
 <pre><code>data(TRI)
 TRI[,"Date"] %&gt;% .[[1]] %&gt;% xts::timeBased()</code></pre>
 <p>If TRUE, it is a valid date column.</p>
@@ -125,10 +129,15 @@ TRI[,"Date"] %&gt;% .[[1]] %&gt;% xts::timeBased()</code></pre>
 <h2 class="hasAnchor">
 <a href="#example-2" class="anchor"></a>Example 2</h2>
 <p>We could also add a suffix or prefix to the column name created. In the example below, adding spread_name_pos = “Suffix” makes columns <country>_TRI.</country></p>
-<pre><code>xtsdata &lt;- tbl2xts::TRI %&gt;% tbl_xts(., cols_to_xts = TRI, spread_by = Country, spread_name_pos = "Suffix")</code></pre>
+<pre><code>tbl2xts::TRI %&gt;% tbl_xts(., cols_to_xts = TRI, spread_by = Country, spread_name_pos = "Suffix")</code></pre>
 <p>You could also easily transform multiple numeric columns into xts using the spread_by functionality:</p>
-<pre><code>spread_multiple &lt;- tbl2xts::TRI %&gt;% tbl_xts(., cols_to_xts = c("TRI", "Return"), spread_by = Country)</code></pre>
+<pre><code>tbl2xts::TRI %&gt;% tbl_xts(., cols_to_xts = c(TRI, Return), spread_by = Country)</code></pre>
 <p>Notice for this example, I forced a spread_name_pos = “Suffix” to allow for differentiation as you chose to spread_by and have multiple cols_to_xts.</p>
+<p>If you set explicitly set spread_name_pos = “NONE”, you will be warned of the “Suffix” override.</p>
+<p>You could also use a vector input for transformation:</p>
+<pre><code>vector_to_xts &lt;- c("TRI", "Return")
+Spread &lt;- "Country"
+tbl2xts::TRI %&gt;% tbl_xts(., cols_to_xts = all_of(vector_to_xts), spread_by = Spread)</code></pre>
 <div id="to-now-transform-the-xts-object-back-into-a-tbl_df-object-simply-use-the-inverse-command" class="section level3">
 <h3 class="hasAnchor">
 <a href="#to-now-transform-the-xts-object-back-into-a-tbl_df-object-simply-use-the-inverse-command" class="anchor"></a>To now transform the xts object back into a tbl_df() object, simply use the inverse command:</h3>

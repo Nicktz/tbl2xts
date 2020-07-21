@@ -1,5 +1,5 @@
 Package: tbl2xts
-Version: 1.0.1
+Version: 1.0.2
 Date: 2020-07-21
 Type: Package
 Title: Convert Tibbles or Data Frames to Xts Easily
@@ -16,9 +16,9 @@ Depends:
 Imports:
     xts,
     zoo,
-    dplyr (>= 1.0.0),
+    dplyr (>= 0.8.0.0),
     tibble, 
-    rlang 
+    rlang
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 7.1.1

@@ -4,7 +4,13 @@
 \alias{tbl_xts}
 \title{tbl_xts}
 \usage{
-tbl_xts(tblData, cols_to_xts, spread_by, spread_name_pos)
+tbl_xts(
+  tblData,
+  cols_to_xts,
+  spread_by,
+  spread_name_pos,
+  Colnames_Exact = FALSE
+)
 }
 \arguments{
 \item{tblData}{A tbl_df type dataframe}
@@ -13,7 +19,9 @@ tbl_xts(tblData, cols_to_xts, spread_by, spread_name_pos)
 
 \item{spread_by}{A character or factor type column used to create xts series by. See example.}
 
-\item{spread_name_pos}{Add the column name of the column used to spread_by as a Suffix, Prefix or None. Defaults to Suffix (puts spread_by name at end of colname, separated by an underscore).}
+\item{spread_name_pos}{Add the column name of the column used to spread_by as a Suffix, Prefix or None. Defaults to Suffix (puts spread_by name at end of column name, separated by an underscore).}
+
+\item{Colnames_Exact}{Stops xts natively replacing spaces in column names with full stops. Kept FALSE as default, as most users expect this behavior.}
 }
 \value{
 A xts dataframe, with columns xts series ordered by the first (date) column.

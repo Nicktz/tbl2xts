@@ -15,13 +15,17 @@
 #' }
 #' @export
 
-xts_tbl <- function(xts) {
+xts_tbl <- function(xts, Colnames_Exact = FALSE) {
 
   # Sanity Check -----------------------------------------------------------
   # ensure that column 1 is a valid date column:
   if ( class(xts)[1] !=  "xts") stop("Ensure that the supplied dataframe has class xts...")
 
+  Names <- colnames(coredata(xts))
   df <- data.frame(date=index(xts), coredata(xts)) %>% tibble::as_tibble()
+
+  if(Colnames_Exact) {colnames(df) <- c("date", Names)}
+
 
   df
 

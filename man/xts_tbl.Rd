@@ -4,7 +4,7 @@
 \alias{xts_tbl}
 \title{xts_tbl}
 \usage{
-xts_tbl(xts)
+xts_tbl(xts, Colnames_Exact = FALSE)
 }
 \arguments{
 \item{xts}{A xts series that will be converted to a tbl_df().}

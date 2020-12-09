@@ -67,6 +67,21 @@ You could also use a vector input for transformation:
     Spread <- "Country"
     tbl2xts::TRI %>% tbl_xts(., cols_to_xts = all_of(vector_to_xts), spread_by = Spread)
 
+
+Also notice that xts natively replaces spaces in column names with ".".
+
+This can be seen e.g. here: 
+
+    tbl2xts::TRI %>% mutate(Country = paste0(Country, " With Space")) %>% 
+    tbl_xts(., cols_to_xts = Return, spread_by = all_of(Spread)) %>% names()
+
+To avoid the names having spaces (which could cause frustration when gathering later): set Colnames_Exact = TRUE (Note this is set to default, as users generally expect xts to replace spaces with '.').
+
+    tbl2xts::TRI %>% mutate(Country = paste0(Country, " With Space")) %>% 
+    tbl_xts(., cols_to_xts = Return, spread_by = all_of(Spread), Colnames_Exact = TRUE)  %>% names()
+
+
+
 ### To now transform the xts object back into a tbl_df() object, simply use the inverse command:
 
     xtsdata <- tbl2xts::TRI %>% tbl_xts(., cols_to_xts = TRI, spread_by = Country, spread_name_pos = "Suffix")

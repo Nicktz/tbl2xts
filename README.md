@@ -1,16 +1,6 @@
 tbl2xts
 =======
 
-[![CRAN\_Release\_Badge](https://www.r-pkg.org/badges/version-ago/tbl2xts)](https://CRAN.R-project.org/package=tbl2xts)
-[![Monthly downloads
-badge](https://cranlogs.r-pkg.org/badges/last-month/tbl2xts?color=blue)](https://CRAN.R-project.org/package=tbl2xts)
-[![Total downloads
-badge](https://cranlogs.r-pkg.org/badges/grand-total/tbl2xts?color=blue)](https://CRAN.R-project.org/package=tbl2xts)
-[![Project Status: Active - The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/)
-
 Introduction
 ------------
 
@@ -85,6 +75,20 @@ You could also use a vector input for transformation:
     vector_to_xts <- c("TRI", "Return")
     Spread <- "Country"
     tbl2xts::TRI %>% tbl_xts(., cols_to_xts = all_of(vector_to_xts), spread_by = all_of(Spread))
+
+Also notice that xts natively replaces spaces in column names with “.”.
+
+This can be seen e.g. here:
+
+    tbl2xts::TRI %>% mutate(Country = paste0(Country, " With Space")) %>% 
+    tbl_xts(., cols_to_xts = Return, spread_by = all_of(Spread)) %>% names()
+
+To avoid the names having spaces (which could cause frustration when
+gathering later): set Colnames\_Exact = TRUE (Note this is set to
+default, as users generally expect xts to replace spaces with ‘.’).
+
+    tbl2xts::TRI %>% mutate(Country = paste0(Country, " With Space")) %>% 
+    tbl_xts(., cols_to_xts = Return, spread_by = all_of(Spread), Colnames_Exact = TRUE)  %>% names()
 
 ### To now transform the xts object back into a tbl\_df() object, simply use the inverse command:
 

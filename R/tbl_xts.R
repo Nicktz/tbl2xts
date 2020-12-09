@@ -5,7 +5,8 @@
 #' @param tblData A tbl_df type dataframe
 #' @param cols_to_xts Specify the columns to be converted to xts format. If not provided, it will by default transform all numeric columns to xts.
 #' @param spread_by A character or factor type column used to create xts series by. See example.
-#' @param spread_name_pos Add the column name of the column used to spread_by as a Suffix, Prefix or None. Defaults to Suffix (puts spread_by name at end of colname, separated by an underscore).
+#' @param spread_name_pos Add the column name of the column used to spread_by as a Suffix, Prefix or None. Defaults to Suffix (puts spread_by name at end of column name, separated by an underscore).
+#' @param Colnames_Exact Stops xts natively replacing spaces in column names with full stops. Kept FALSE as default, as most users expect this behavior.
 #' @return A xts dataframe, with columns xts series ordered by the first (date) column.
 #' @importFrom xts as.xts timeBased
 #' @import zoo
@@ -23,7 +24,7 @@
 #' }
 #' @export
 
-tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos) {
+tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos, Colnames_Exact = FALSE) {
 
   # Sanity Checks -----------------------------------------------------------
 
@@ -160,7 +161,15 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos) {
       if (i == 1 ) {
         dataXts <- dataXtsTmp
       } else {
+
+        Nams_Rep <- c(names(dataXts), names(dataXtsTmp))
         dataXts <- cbind(dataXts, dataXtsTmp)
+
+        if(Colnames_Exact){
+          names(dataXts) <- Nams_Rep
+        }
+
+
       }
 
     }

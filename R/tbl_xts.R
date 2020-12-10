@@ -36,6 +36,12 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos, Colnames_E
 
   if( N_spread_Cols > 1) stop( "spread_by length greater than 1. This function only works on 1 spread column." )
 
+  if ( missing(spread_by) & class(tblData)[1] == "grouped_df" ) {
+    warning("NOTE: The tbl_df grouping was not preserved. Output same as with ungroup(df). \n You can choose to use spread_by instead.")
+  }
+  tblData <- tblData %>% ungroup()
+
+
   if( missing(spread_name_pos) ) { spread_name_pos <- "NONE"; WARN = FALSE } else { WARN = TRUE }
 
   if( spread_name_pos %in% c("NONE", "None", "none") && N_xts_Cols > 1 && !missing(spread_by)) {
@@ -64,9 +70,6 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos, Colnames_E
   # Xts Conversion ----------------------------------------------------------
 
   if ( missing(spread_by) ) {
-
-    # Warn if there is a grouping to the tbl_df, but spread_by has not been provided:
-    if ( class(tblData)[1] == "grouped_df" ) warning("NOTE: The tbl_df grouping was not preserved. Output same as with ungroup(df). \n You can choose to use spread_by instead.")
 
     # Define the date column to arrange by:
     if( length(tblData[,which(names(tblData) %in% c("Date", "date", "DATE") )]) == 0 ) {
@@ -111,7 +114,7 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos, Colnames_E
     for (i in 1:length(gid.xts)) {
 
       xtsdatTmp <-
-        tblData %>% ungroup() %>%
+        tblData %>%
         rename( spreadCol := !!spreader) %>%
         filter( spreadCol %in% gid.xts[i] )
 

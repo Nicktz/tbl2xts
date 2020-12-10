@@ -27,7 +27,7 @@
 tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos, Colnames_Exact = FALSE) {
 
   # Sanity Checks -----------------------------------------------------------
-
+  tblData <- tblData %>% ungroup()
   cols_xts <- enquo( cols_to_xts )
   spreader <- enquo( spread_by )
   spreadCol = NULL

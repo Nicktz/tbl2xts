@@ -27,6 +27,10 @@
 tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos, Colnames_Exact = FALSE) {
 
   # Sanity Checks -----------------------------------------------------------
+  if ( missing(spread_by) & class(tblData)[1] == "grouped_df" ) {
+    warning("NOTE: The tbl_df grouping was not preserved. Output same as with ungroup(df). \n You can choose to use spread_by instead.")
+  }
+  tblData <- tblData %>% ungroup()
 
   cols_xts <- enquo( cols_to_xts )
   spreader <- enquo( spread_by )
@@ -35,12 +39,6 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos, Colnames_E
   N_spread_Cols <- tblData %>% select(!!spreader) %>% ncol()
 
   if( N_spread_Cols > 1) stop( "spread_by length greater than 1. This function only works on 1 spread column." )
-
-  if ( missing(spread_by) & class(tblData)[1] == "grouped_df" ) {
-    warning("NOTE: The tbl_df grouping was not preserved. Output same as with ungroup(df). \n You can choose to use spread_by instead.")
-  }
-  tblData <- tblData %>% ungroup()
-
 
   if( missing(spread_name_pos) ) { spread_name_pos <- "NONE"; WARN = FALSE } else { WARN = TRUE }
 

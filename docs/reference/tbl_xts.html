@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • tbl2xts</title>
+<title>tbl_xts — tbl_xts • tbl2xts</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="tbl_xts — tbl_xts" />
+<meta property="og:description" content="This function converts data from a tbl_df() format into a xts format.
+Note that the dataframe must be a data.frame or tbl_df, and either the first column must be a valid date column, or there must be one column named date, Date or DATE to order by.
+tbl_xts also allows the user to specify the columns to be transformed to xts, as well as an option for spreading by a single character or factor type column. See the example for details." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,54 +120,66 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>tbl_xts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/nicktz/tbl2xts/blob/master/R/tbl_xts.R'><code>R/tbl_xts.R</code></a></small>
+    <div class="hidden name"><code>tbl_xts.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This function converts data from a tbl_df() format into a xts format.
+Note that the dataframe must be a data.frame or tbl_df, and either the first column must be a valid date column, or there must be one column named date, Date or DATE to order by.
+tbl_xts also allows the user to specify the columns to be transformed to xts, as well as an option for spreading by a single character or factor type column. See the example for details.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>tbl_xts</span>(
+  <span class='no'>tblData</span>,
+  <span class='no'>cols_to_xts</span>,
+  <span class='no'>spread_by</span>,
+  <span class='no'>spread_name_pos</span>,
+  <span class='kw'>Colnames_Exact</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="tbl_xts.html">tbl_xts()</a></code> </p>
-        </td>
-        <td><p>tbl_xts</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="TRI.html">TRI</a></code> </p>
-        </td>
-        <td><p>This is a toy dataset, which is simply an example of a Total Return Index that can be used in packages requiring xts</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="xts_tbl.html">xts_tbl()</a></code> </p>
-        </td>
-        <td><p>xts_tbl</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>tblData</th>
+      <td><p>A tbl_df type dataframe</p></td>
+    </tr>
+    <tr>
+      <th>cols_to_xts</th>
+      <td><p>Specify the columns to be converted to xts format. If not provided, it will by default transform all numeric columns to xts.</p></td>
+    </tr>
+    <tr>
+      <th>spread_by</th>
+      <td><p>A character or factor type column used to create xts series by. See example.</p></td>
+    </tr>
+    <tr>
+      <th>spread_name_pos</th>
+      <td><p>Add the column name of the column used to spread_by as a Suffix, Prefix or None. Defaults to Suffix (puts spread_by name at end of column name, separated by an underscore).</p></td>
+    </tr>
+    <tr>
+      <th>Colnames_Exact</th>
+      <td><p>Stops xts natively replacing spaces in column names with full stops. Kept FALSE as default, as most users expect this behavior.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A xts dataframe, with columns xts series ordered by the first (date) column.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tbl2xts</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>TRI</span>)
+<span class='fu'>tbl_xts</span>(<span class='kw pkg'>tbl2xts</span><span class='kw ns'>::</span><span class='no'><a href='TRI.html'>TRI</a></span>, <span class='kw'>cols_to_xts</span> <span class='kw'>=</span> <span class='no'>TRI</span>, <span class='kw'>spread_by</span> <span class='kw'>=</span> <span class='no'>Country</span>)
+ <span class='co'># tbl - xts - tbl:</span>
+<span class='fu'>tbl_xts</span>(<span class='kw pkg'>tbl2xts</span><span class='kw ns'>::</span><span class='no'><a href='TRI.html'>TRI</a></span>, <span class='kw'>cols_to_xts</span> <span class='kw'>=</span> <span class='no'>TRI</span>, <span class='kw'>spread_by</span> <span class='kw'>=</span> <span class='no'>Country</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='xts_tbl.html'>xts_tbl</a></span>()
+}</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

@@ -2,6 +2,7 @@
 #' @description This function converts data from a xts object to a tbl_df().
 #' Note that the dataframe must be of type xts and ordered by a date column. This date column will be preserved and save as "date".
 #' @param xts A xts series that will be converted to a tbl_df().
+#' @param Colnames_Exact Stops xts natively replacing spaces in column names with full stops. Kept FALSE as default, as most users expect this behavior.
 #' @return A tbl_df() with the first column the "date"  column used to order the xts series by.
 #' @importFrom xts as.xts
 #' @import zoo

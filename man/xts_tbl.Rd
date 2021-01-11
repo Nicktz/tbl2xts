@@ -8,6 +8,8 @@ xts_tbl(xts, Colnames_Exact = FALSE)
 }
 \arguments{
 \item{xts}{A xts series that will be converted to a tbl_df().}
+
+\item{Colnames_Exact}{Stops xts natively replacing spaces in column names with full stops. Kept FALSE as default, as most users expect this behavior.}
 }
 \value{
 A tbl_df() with the first column the "date"  column used to order the xts series by.

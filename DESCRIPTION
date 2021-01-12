@@ -1,6 +1,6 @@
 Package: tbl2xts
 Version: 1.0.4
-Date: 2020-12-09
+Date: 2021-01-09
 Type: Package
 Title: Convert Tibbles or Data Frames to Xts Easily
 Authors@R: person("Nico", "Katzke", role = c("aut", "cre"), email = "nfkatzke@gmail.com")
@@ -10,7 +10,7 @@ Description: Facilitate the movement between data frames to 'xts'. Particularly
     to use a 'spread_by' argument for a character column 'xts' conversion.
 Maintainer: Nico Katzke <nfkatzke@gmail.com>
 BugReports: https://github.com/nicktz/tbl2xts/issues
-URL: http://tbl2xts.nfkatzke.com
+URL: https://tbl2xts.nfkatzke.com
 Depends:
     R (>= 3.3.1)
 Imports:

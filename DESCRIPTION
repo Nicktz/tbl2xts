@@ -1,5 +1,5 @@
 Package: tbl2xts
-Version: 1.0.4
+Version: 1.0.5
 Date: 2021-01-09
 Type: Package
 Title: Convert Tibbles or Data Frames to Xts Easily

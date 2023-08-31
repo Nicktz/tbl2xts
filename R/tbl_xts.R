@@ -9,6 +9,7 @@
 #' @param Colnames_Exact Stops xts natively replacing spaces in column names with full stops. Kept FALSE as default, as most users expect this behavior.
 #' @return A xts dataframe, with columns xts series ordered by the first (date) column.
 #' @importFrom xts as.xts timeBased
+#' @importFrom tibble as_tibble
 #' @import zoo
 #' @import dplyr
 #' @importFrom rlang :=
@@ -58,7 +59,7 @@ tbl_xts <- function(tblData, cols_to_xts, spread_by, spread_name_pos, Colnames_E
   # dataframe to tbl_df. Add warning too..:
   if (class(tblData)[1] == "data.frame") {
     tblData <-
-      tblData %>% tbl_df()
+      tblData %>% tibble::as_tibble()
     warning("NOTE:......... \n Changed your data.frame object to tbl_df(). \n If results are strange, use a tbl_df class and check column definitions (character, numeric, etc make sense before using tbl_xts.)")
   }
 
